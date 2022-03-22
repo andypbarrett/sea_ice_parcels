@@ -1,0 +1,147 @@
+﻿Submitted on Thursday, 21 October, 2021 - 15:31
+Submitted by user: scstewart
+Submitted values are:
+
+Data Creation Funded By: NASA
+==NASA DAAC Submission Information==
+
+==PI Contact Information==
+Title: Dr.
+First Name: J. Scott
+Middle Initial:
+Last Name: Stewart
+Organization: NSIDC
+E-mail: scotts@colorado.edu
+Mailing Address:
+City:
+State/Province:
+Postal Code:
+Country: United States
+Phone: 3036824322
+Fax:
+
+
+==Technical Contact Information==
+Technical contact same as PI list above? yes
+
+
+Add Investigator: I would like to name other investigators who should be credited for this data.
+==Additional Investigator(s)==
+First Name: Mark
+Middle Initial: A.
+Last Name: Tschudi
+Organization: University of Colorado, Dept of Aerospace
+Engineering
+E-mail: Mark.Tschudi@colorado.edu
+Add PI 3:
+
+
+==PI Justification==
+Value of this data set:
+This data set builds upon NSIDC-0116 "Polar Pathfinder Daily 25 km EASE-Grid Sea Ice Motion Vectors, Version 4" by providing users with 'tracer parcels' which can be used to estimate advection paths of sea ice in the Northern Hemisphere. When combined with other data sets -- e.g. precipitation or temperature -- this allows users to estimate the evolution of conditions on the surface of sea ice as it moves in the Northern Hemisphere.
+
+This data set is also the basis for another recent NSIDC data-accession submission: "The fate of sea ice & its interaction with the atmosphere: Lagrangian Sea Ice Parcel; PI: Linette Boisvert"
+
+
+==Data Set Information==
+Data Set Title: Simulated 12-month Ice Parcel Tracks from Gridded Sea Ice Motion
+Data Format: Compressed comma separated value (.csv.gz)
+Data Description: Data are presented in CSV (comma separated value) format, with one file per 12-month (53-week) tracking period. Files are generally nearly 100MB uncompressed and ~12-15 MB compressed.
+
+Columns represent the time evolution of location and sea ice concentration over a 53-week tracking time period. For each week, the EASEgrid x- and y- coordinates of the parcel are provided as well as an estimate of sea ice concentration derived from bilinear interpolation of NSIDC-0051 ("Sea Ice Concentrations from Nimbus-7 SMMR and DMSP SSM/I-SSMIS Passive Microwave Data, Version 1") onto the EASEgrid. The first three columns contain the x, y, and concentrations values for the first
+week of the 12-month period for which the ice parcels are tracked. The next three columns contain the x, y, and concentrations for the second week, and so on. There are a total of 159 (=53 * 3) columns.
+
+Rows represent distinct simulated ice parcels. On the first week, a parcel is created for each grid cell in the NH 25km EASE grid with a sea ice concentration of > 15%. The starting location of each parcel is the middle of the grid cell. Each week, the location of this parcel is updated by assuming the parcels moves at the rate indicated by the ice motion estimate from NSIDC-0116 for one week. After this simulated advection, the sea ice concentration at each parcel is calculated. If the sea ice concentration is less than 15%, the parcel is considered to have melted, and both its location and sea ice concentration values for the rest of the 53-week time period will be given the parcel-has-melted value of 999.
+
+During any week after the first week, if a grid cell is found to (a) have a sea ice concentration of > 15%, and (b) not already have a currently-tracked ice parcel within the grid cell, then a new row is added to the data set to track ice from this parcel. A new parcel may be created because either (1) sea ice has formed where no ice existed in the prior week, or (2) the sea ice has locally diverged enough that no current parcel is within this grid cell. Data for columns prior to the current week are seeded with the value -999 to represent that this parcel does-not-yet-exist for that week.
+
+This methodology ensures that for each week, at least one parcel will be located in EASEgrid cell which has a sea ice concentration of > 15%.
+
+These data have been used in current and prior NASA projects. For instance, they formed the basis for the advection of sea ice surface properties in JGR Oceans: "A Lagrangian snow-evolution system for sea-ice applications (SnowModel-LG): Part I—Model description" (doi: https://doi.org/10.1029/2019JC015913) "A Lagrangian Snow Evolution System for Sea Ice Applications
+(SnowModel-LG): Part II—Analyses" (doi: https://doi.org/10.1029/2019JC015900) as well as current research: "Fate of sea ice in the 'New Arctic': A database of daily Lagrangian Arctic sea ice parcel drift tracks with coincident ice and atmospheric conditions (doi: https://doi.org/10.5194/tc-2021-297), in review, 2021
+
+Input Data Source:
+The primary input for this data set is NSIDC-0116 ( Polar Pathfinder Daily 25 km EASE-Grid Sea Ice Motion Vectors, Version 4 ). These data provide the estimate sea ice motions needed to simulate the advection of ice parcels throughout the Northern Hemisphere.
+
+This data set also uses sea ice concentration estimates from NSIDC-0051 ( Sea Ice Concentrations from Nimbus-7 SMMR and DMSP SSM/I-SSMIS Passive Microwave Data, Version 1 ). Estimates of sea ice concentration (a) are provided with each parcel at each time point, and (b) are used to determine whether or not an ice parcel has melted -- and should therefore no longer be tracked --or has formed -- and must subsequently be tracked.
+
+Data Volume: 75MB per year * 40 years of coverage * 2 start-years (Aug1 and Oct1) ~= 6000MB through 2020; or ~1050MB compressed
+
+Data Usage Constraints: Publications in 2021 or later should reference this data set using the citation verbiage provided with the data set.
+
+Parameters:
+Ice parcel location on the EASEgrid: x, y
+Sea ice concentration
+
+Data Collection Methods: N/A
+
+
+==Data Set Coverage==
+Temporal Coverage: Start Date:
+Temporal Coverage: End Date:
+Temporal Resolution: weekly
+Spatial Coverage: Northern Hemisphere
+Spatial Resolution: 25 km
+Data Processing Steps:
+A starting-week is identified. Initially, we provide data sets which started Aug 1 (week 31) and Oct 1 (week 40). A starting year is chosen. Here, we use 1980 for starting-week 31 and 1979 for starting-week 40. The NH 25km EASEgrid cells with sea ice (=concentration > 15%) are identified and both the location and sea ice concentration are recorded For each week up to and including the starting-week of the
+following calendar year -- 53 weeks total:
+- the location of each parcel is updated using ice motion information from NSIDC-0116
+- the ice concentration of each parcel is updated using information from NSIDC-0051
+- if a parcel as "melted", the parcel is no longer tracked 
+- if sea ice exists where no parcel is currently located, a new parcel is created and tracked. Because this parcel did not exist prior to this week, and because a CSV file is a rectangular table, weeks prior to the current week are given dummy values of -999 for location (x and y) and concentration. This process is repeated for each year through 2019 (which ends in 2020...currently the last year for which data from NSIDC-0116 exist).
+
+
+==Data Set Ingest==
+Ingest Frequency: One Time
+Ingest Method: Push by provider
+
+
+==Additional Information==
+References About the Data:
+Input data are described on their URLs:
+- NSIDC-0116: https://nsidc.org/data/nsidc-0116
+- NSIDC-0051: https://nsidc.org/data/nsidc-0051
+
+The application of this data set is described in detail in:
+- JGR-Oceans: "A Lagrangian snow-evolution system for sea-ice applications (SnowModel-LG): Part I—Model description" (doi: https://doi.org/10.1029/2019JC015913) - The Cryosphere: "Fate of sea ice in the 'New Arctic': A database of daily Lagrangian Arctic sea ice parcel drift tracks with coincident ice and atmospheric conditions (doi: https://doi.org/10.5194/tc-2021-297), in review, 2021
+
+References Using the Data:
+Published (2020):
+"A Lagrangian snow-evolution system for sea-ice applications
+(SnowModel-LG): Part I—Model description" (doi:
+https://doi.org/10.1029/2019JC015913)
+"A Lagrangian Snow Evolution System for Sea Ice Applications
+(SnowModel-LG): Part II—Analyses" (doi:
+https://doi.org/10.1029/2019JC015900)
+
+In review (2021):
+"Fate of sea ice in the 'New Arctic': A database of daily
+Lagrangian Arctic sea ice parcel drift tracks with coincident ice
+and atmospheric conditions
+(doi: https://doi.org/10.5194/tc-2021-297)
+
+Under data accession at NSIDC (2021):
+"The fate of sea ice & its interaction with the atmosphere: Lagrangian Sea Ice Parcel" PI: Linette Boisvert
+Related URLs: N/A
+Additional Info:
+This data set is a precursor (input data set) to another recent submission to NSIDC for data accession: "The fate of sea ice & its interaction with the atmosphere: Lagrangian Sea Ice Parcel" PI: Linette Boisvert.
+
+If possible, it would be ideal for both data sets to be published simultaneously because the one extends the other.
+
+Thank you!
+Scott and Mark
+
+
+==Sample Data File Upload==
+Upload file:
+
+https://nsidc.org/sites/nsidc.org/files/webform/parcels_xyc_2019w40_2020w40_0.csv
+Upload file:
+Upload file:
+Upload file:
+
+
+
+
+The results of this submission may be viewed at:
+https://nsidc.org/node/4569/submission/39519
