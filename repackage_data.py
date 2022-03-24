@@ -33,11 +33,26 @@ class Parcel():
 
     def __str__(self):
         """return str representation"""
-        
+        header = ['time', 'row', 'column', 'x', 'y', 'concentration']
+        string = []
+        string.append('-'*57+'\n')
+        string.append(' '.join(header)+'\n')
+        string.append('-'*57+'\n')
+        zipped = zip(self.time,
+                     self.row,
+                     self.column,
+                     self.x,
+                     self.y,
+                     self.concentration)
+        for t, r, c, x, y, s in zipped:
+            string.append(f'{t.strftime("%Y-%m-%d")} {r:7.3f} {c:7.3f} {x:11.3f} {y:11.3f} {s:5.1f}\n')
+        return ''.join(string)
+
 
 def to_projected_coordinates(col, row):
     fwd = Affine.from_gdal(*GEOTRANSFORM)
-    xs = []; ys = []
+    xs = []
+    ys = []
     for c, r in zip(col, row):
         if c < 999.0:
             x, y = fwd * (c, r)
