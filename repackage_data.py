@@ -95,7 +95,6 @@ def to_xarray(parcels):
             'time': parcels[0].time,
             'trajectory': np.arange(len(parcels)),
         })
-
     return ds
 
 
