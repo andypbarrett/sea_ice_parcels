@@ -83,17 +83,19 @@ def stack_parcels(parcels):
 
 def to_xarray(parcels):
     dims = ['time', 'trajectory']
-    ds = xr.Dataset({
-        'row': (dims, np.stack([p.row for p in parcels], axis=1)),
-        'col': (dims, np.stack([p.column for p in parcels], axis=1)),
-        'x': (dims, np.stack([p.x for p in parcels], axis=1)),
-        'y': (dims, np.stack([p.y for p in parcels], axis=1)),
-        'concentration': (dims, np.stack([p.concentration for p in parcels], axis=1)),
+    ds = xr.Dataset(
+        {
+            'row': (dims, np.stack([p.row for p in parcels], axis=1)),
+            'col': (dims, np.stack([p.column for p in parcels], axis=1)),
+            'x': (dims, np.stack([p.x for p in parcels], axis=1)),
+            'y': (dims, np.stack([p.y for p in parcels], axis=1)),
+            'concentration': (dims, np.stack([p.concentration for p in parcels], axis=1)),
         },
-                    coords={
-                        'time': parcels[0].time,
-                        'trajectory': np.arange(len(parcels)),
-                    })
+        coords={
+            'time': parcels[0].time,
+            'trajectory': np.arange(len(parcels)),
+        })
+
     return ds
 
 
